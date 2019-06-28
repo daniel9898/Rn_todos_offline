@@ -1,15 +1,11 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import Add from './add.component';
-import List from './list.component';
 
-export default class TodosScreen extends Component {
+export default class Add extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>ESTO ES TodosScreen!</Text>
-        <Add />
-        <List />
+        <Text style={styles.welcome}>ADD COMPONENT</Text>
       </View>
     );
   }
