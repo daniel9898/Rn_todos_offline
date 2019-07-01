@@ -25,8 +25,10 @@ export default class TodosScreen extends Component {
         </Header>
 
         <Content padder>
-          <AddTodo />
-          <ListTodos />
+
+          <AddTodo {...this.props}/>
+          <ListTodos {...this.props}/>
+          
         </Content>
       </Container>
     );

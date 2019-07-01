@@ -3,14 +3,26 @@ import {Platform, StyleSheet, TextInput, View, TouchableOpacity} from 'react-nat
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Content,Text, Card, CardItem } from "native-base";
 
 export default class AddTodo extends Component {
+
+  state = {
+    text: ''
+  }
+
+  addTodo = text => {
+    this.props.todosActions.addTodo(text);
+    this.setState({text: ''})
+  }
+
   render() {
+
     return (
       <View style={styles.container}>
         <TextInput 
+          onChangeText={text => this.setState({text: text})}
           style={styles.input}
           placeholder='Ingrese una tarea...' 
         />
-        <TouchableOpacity  onPress={() => alert('agregando')}>
+        <TouchableOpacity  onPress={() => this.addTodo(this.state.text)}>
           <View style={styles.button}>
             <Icon style={styles.icon} name="add"/>
           </View>
@@ -45,10 +57,3 @@ const styles = StyleSheet.create({
     padding: 10,
   }
 });
-
-    {/*<Button full rounded blue
-          style={{ marginTop: 10 }}
-          onPress={() => {}}>
-          <Text>Agregar</Text>
-          <Icon name="add" />
-        </Button>*/}
