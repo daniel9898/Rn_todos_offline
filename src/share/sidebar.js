@@ -26,7 +26,7 @@ export default class Sidebar extends React.Component {
             </Text>
             <View style={styles.navSectionStyle}>
               <Text style={styles.navItemStyle} onPress={this.navigateToScreen('Todos')}>
-              Todos
+              Tareas
               </Text>
             </View>
           </View>

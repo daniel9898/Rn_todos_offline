@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 
-export default class Add extends Component {
+export default class ListTodos extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>ADD COMPONENT</Text>
+        <Text style={styles.welcome}>LIST COMPONENT</Text>
       </View>
     );
   }
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'gray',
+    backgroundColor: 'white',
   },
   welcome: {
     fontSize: 20,
