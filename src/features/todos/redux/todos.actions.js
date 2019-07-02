@@ -1,6 +1,5 @@
 import * as todosConstant from './todos.constants';
-
-let nextTodoId = 0
+import todoDb from '../todos.db';
 
 export const addTodoInit = () => {
 	return {
@@ -9,6 +8,7 @@ export const addTodoInit = () => {
 }
 
 export const addTodoFailure = error => {
+	console.log('error --> ',error);
 	return {
 		type: todosConstant.ADD_TODO_FAILURE,
 		payload: error
@@ -18,19 +18,19 @@ export const addTodoFailure = error => {
 export const addTodoSuccess = data => {
 	return {
 		type: todosConstant.ADD_TODO_SUCCESS,
-		id: nextTodoId++,
-		payload: data
+		payload: {
+			text: data
+		}
 	}
-
 }
 
 export const addTodo = text => {
     return async (dispatch) => {
         dispatch(addTodoInit());
-
+      
         try {
-            //await authApi.restartPasswordToken(user);
-            return dispatch(addTodoSuccess()); //guardamos en la db
+            todoDb.save({ name: text, status: 'incompleta' });
+            return dispatch(addTodoSuccess(text)); //guardamos en la db
         } catch (error) {
             return dispatch(addTodoFailure(error));
         }

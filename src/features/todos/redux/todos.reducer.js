@@ -1,28 +1,32 @@
 import * as todosActions from './todos.constants';
-//exportar el initialState
+import initialState from '../../../redux/initialState';
 
-export default function todosReducer (state= [], action) {
-    console.log('state ',state);
-    console.log('action ',action);
-
+export default function todosReducer (state= initialState.todos, action) {
+  
     switch (action.type) {
         case todosActions.ADD_TODO_INIT:
             return {
-                ...state
-                    
+                ...state,
+                loading : true       
             }
+
         case todosActions.ADD_TODO_FAILURE:
             return {
                 ...state,
+                loading : false,
+                error: action.payload 
             }
+
         case todosActions.ADD_TODO_SUCCESS:
-        console.log('state ',state)
-            return [
-                ...state, {
-                    id: action.id,
-                    text: action.text
-                }
-            ]
+            return {
+                list : [ 
+                    ...state.list, {
+                        ...action.payload,
+                    }
+                ],
+                loading : false, 
+            }
+
         default:
             return state;
     }

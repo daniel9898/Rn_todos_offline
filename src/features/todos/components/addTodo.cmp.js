@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {Platform, StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
-import { Container, Header, Title, Left, Icon, Right, Button, Body, Content,Text, Card, CardItem } from "native-base";
+import React, { Component } from 'react';
+import { StyleSheet, TextInput, View, TouchableOpacity } from 'react-native';
+import Icon from "react-native-vector-icons/Ionicons";
 
 export default class AddTodo extends Component {
 
@@ -11,49 +11,47 @@ export default class AddTodo extends Component {
   addTodo = text => {
     this.props.todosActions.addTodo(text);
     this.setState({text: ''})
+    this.textInput.clear();
   }
 
   render() {
-
     return (
-      <View style={styles.container}>
-        <TextInput 
-          onChangeText={text => this.setState({text: text})}
-          style={styles.input}
-          placeholder='Ingrese una tarea...' 
-        />
-        <TouchableOpacity  onPress={() => this.addTodo(this.state.text)}>
-          <View style={styles.button}>
-            <Icon style={styles.icon} name="add"/>
-          </View>
-        </TouchableOpacity >
+      <View style={styles.textSection}>
+          <TextInput
+            style={styles.input}
+            ref={input => { this.textInput = input }} 
+            placeholder="Ingrese una tarea..."
+            onChangeText={text => this.setState({text: text})}
+            underlineColorAndroid="transparent"
+          />
+          <TouchableOpacity  onPress={() => this.addTodo(this.state.text)}>
+            <Icon style={styles.Icon} name="ios-add" size={50} color="#000"/>
+          </TouchableOpacity >
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    marginHorizontal: 20
+  textSection: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#fff',
+  },
+  Icon: {
+      padding: 10,
   },
   input: {
-    flex: 1,
-    height: 50,
-    borderWidth: 1,
-    borderColor: '#00CCCC',
-    padding: 5,
-    fontSize: 20
-  
+      flex: 1,
+      paddingTop: 10,
+      paddingRight: 10,
+      paddingBottom: 10,
+      paddingLeft: 10,
+      backgroundColor: '#fff',
+      color: '#424242',
+      fontSize: 20
   },
-  button: {
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    //borderLeftWidth: 10
-  },
+})
 
-  icon : {
-    padding: 10,
-  }
-});

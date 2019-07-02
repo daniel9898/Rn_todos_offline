@@ -1,9 +1,14 @@
 import React from "react";
-import { StatusBar } from "react-native";
 import { DrawerActions } from 'react-navigation';
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Content,Text, Card, CardItem } from "native-base";
+import { createTables } from '../features/db';
 
 export default class Dashboard extends React.Component {
+
+  constructor(){
+    super()
+    createTables();
+  }
 
   render() {
     return (

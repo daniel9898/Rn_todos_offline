@@ -1,17 +1,27 @@
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import todoDb from '../todos.db';
 
 export default class ListTodos extends Component {
+
+  constructor(){
+    super()
+    //ver como devolver los datos y donde ponerlo para que renderize cada vez que se agrega uno
+    todoDb.get(); 
+  }
 
   render() {
     console.log( this.props);
     return (
       <View style={styles.container}>
         {
-          this.props.todos.map(todo => {
-            <TouchableOpacity>
-              <Text>{todo.text}</Text>
-            </TouchableOpacity >
+          this.props.todos.list.map((todo,index) => {  
+            return  <Text 
+                      key={index}
+                      style={styles.text}
+                    >
+                    - {todo.text}
+                    </Text>
           })
         }
       </View>
@@ -22,13 +32,10 @@ export default class ListTodos extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: 'white',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  text: {
+    padding: 4,
+    fontSize: 25,
   }
 });

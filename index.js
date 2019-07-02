@@ -8,10 +8,8 @@ import { createStore, applyMiddleware } from 'redux';
 import rootReducer from './src/redux/root.reducer';
 import Navigation  from './src/share/navigation/stack.navigation';
 import thunk from 'redux-thunk';
+import initialState from './src/redux/initialState';
 
-const initialState = {
-	todos : []
-}
 
 const store = createStore(rootReducer, initialState, applyMiddleware(thunk));
 
