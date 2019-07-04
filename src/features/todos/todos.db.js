@@ -1,24 +1,67 @@
-import { executeSql } from '../db';
+import { getConnection } from '../db';
 
-export default todoDb = {
+export default todosConnection = {
 	save(todo){
+		const db = getConnection();
 	    let query = "INSERT INTO todos (name, status) values (?, ?)";
-	    executeSql(query, [todo.name, todo.status]);
-	    //this.get();
+	    let params = [todo.name, todo.status];
+	   
+	    return new Promise((resolve, reject) => {    	
+	    	db.transaction((tx) => {
+			    tx.executeSql(query, params, (tx, results) => {
+			     	resolve(results);
+			    });
+			},
+			error => reject(error));
+        })
 	},
 
 	update(){
 
 	},
 
-	get(){
-		let query = "SELECT * FROM todos";
-		executeSql(query);
+	getAll(){
+	    const db = getConnection();
+	    let query = "SELECT * FROM todos";
+	
+	    return new Promise((resolve, reject) => {
+	    	db.transaction((tx) => {
+			    tx.executeSql(query, [], (tx, results) => {
+		            let rows = [];
+			      	var len = results.rows.length;
+			      	for (let i = 0; i < len; i++) {
+				        let row = results.rows.item(i);
+				        rows.push(row);
+			     	}
+			     	resolve(rows);
+			    });
+			},
+			error => reject(error));
+        })
 	},
 
 
-	getAll(){
 
+	getById(id){
+	    const db = getConnection();
+	    let query = "SELECT * FROM todos WHERE id= (?)";
+	    let params = [id];
+	
+	    return new Promise((resolve, reject) => {
+	    	db.transaction((tx) => {
+			    tx.executeSql(query, params, (tx, results) => {
+		            let rows = [];
+			      	var len = results.rows.length;
+			    
+			      	for (let i = 0; i < len; i++) {
+				        let row = results.rows.item(i);
+				        rows.push(row);
+			     	}
+			     	resolve(rows);
+			    }, 
+			    error => reject(error));
+			});
+        })
 	},
 
 	delete(){

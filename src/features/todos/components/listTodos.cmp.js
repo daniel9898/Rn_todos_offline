@@ -3,15 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import todoDb from '../todos.db';
 
 export default class ListTodos extends Component {
-
-  constructor(){
-    super()
-    //ver como devolver los datos y donde ponerlo para que renderize cada vez que se agrega uno
-    todoDb.get(); 
-  }
-
+  
   render() {
-    console.log( this.props);
+    console.log('this.props ',this.props);
     return (
       <View style={styles.container}>
         {
@@ -20,7 +14,7 @@ export default class ListTodos extends Component {
                       key={index}
                       style={styles.text}
                     >
-                    - {todo.text}
+                    - {todo.name}
                     </Text>
           })
         }

@@ -11,18 +11,7 @@ export const createTables = () => {
     });
 }
 
-export const executeSql = (query, params= []) => {
-	db.transaction((tx) => {
-	    tx.executeSql(query, params, (tx, results) => {
-	      console.log("Query completed");
-
-	      var len = results.rows.length;
-	      for (let i = 0; i < len; i++) {
-	        let row = results.rows.item(i);
-	        console.log(`${row.name} ---- ${row.id} --- ${row.status}`);
-	      }
-
-	    });
-	})
-
+export const getConnection = () => {
+	return db;
 }
+
