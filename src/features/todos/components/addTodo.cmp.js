@@ -16,7 +16,7 @@ export default class AddTodo extends Component {
 
   render() {
     return (
-      <View style={styles.textSection}>
+      <View style={styles.container}>
           <TextInput
             style={styles.input}
             ref={input => { this.textInput = input }} 
@@ -33,7 +33,7 @@ export default class AddTodo extends Component {
 }
 
 const styles = StyleSheet.create({
-  textSection: {
+  container: {
       flex: 1,
       flexDirection: 'row',
       justifyContent: 'center',

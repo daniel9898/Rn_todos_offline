@@ -2,6 +2,7 @@ import * as todosConstant from './todos.constants';
 import todosConnection from '../todos.db';
 
 // --- FETCH ---
+
 export function fetchTodosInit() {
     return { type: todosConstant.FETCH_TODOS_INIT};
 };
@@ -31,6 +32,7 @@ export function fetchTodos() {
 };
 
 // --- ADD ---
+
 export const addTodoInit = () => {
 	return {
 		type: todosConstant.ADD_TODO_INIT
@@ -38,7 +40,6 @@ export const addTodoInit = () => {
 }
 
 export const addTodoFailure = error => {
-	console.log('error --> ',error);
 	return {
 		type: todosConstant.ADD_TODO_FAILURE,
 		payload: error
@@ -48,10 +49,8 @@ export const addTodoFailure = error => {
 export const addTodoSuccess = data => {
 	return {
 		type: todosConstant.ADD_TODO_SUCCESS,
-		payload: {
-			text: data
-		}
-	}
+		payload: data
+    }
 }
 
 export const addTodo = text => {
@@ -60,12 +59,48 @@ export const addTodo = text => {
       
         try {
             let response = await todosConnection.save({ name: text, status: 'incompleta' });
-            console.log('response ',response);
             let todo = await todosConnection.getById(response.insertId);
-            console.log('todo by id ',todo[0]);
             return dispatch(addTodoSuccess(todo[0]));
         } catch (error) {
             return dispatch(addTodoFailure(error));
         }
     };
 }
+
+// --- DELETE ---
+
+export const deleteTodoInit = () => {
+    return {
+        type: todosConstant.DELETE_TODO_INIT
+    }
+}
+
+export const deleteTodoFailure = error => {
+    return {
+        type: todosConstant.DELETE_TODO_FAILURE,
+        payload: error
+    }
+}
+
+export const deleteTodoSuccess = data => {
+    return {
+        type: todosConstant.DELETE_TODO_SUCCESS,
+        payload: data
+    }
+}
+
+export const deleteTodo = id => {
+    console.log('TODO A BORRAR ',id);
+    return async (dispatch) => {
+        dispatch(deleteTodoInit());
+      
+        try {
+            let response = await todosConnection.delete(id);
+            console.log('response delete',response);
+            return dispatch(deleteTodoSuccess(response));
+        } catch (error) {
+            return dispatch(deleteTodoFailure(error));
+        }
+    };
+}
+

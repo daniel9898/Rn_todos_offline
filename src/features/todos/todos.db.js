@@ -64,7 +64,19 @@ export default todosConnection = {
         })
 	},
 
-	delete(){
+	delete(id){
+		const db = getConnection();
+	    let query = "DELETE FROM todos WHERE id= (?)";
+	    let params = [id];
+	   
+	    return new Promise((resolve, reject) => {    	
+	    	db.transaction((tx) => {
+			    tx.executeSql(query, params, (tx, results) => {
+			     	resolve(results);
+			    });
+			},
+			error => reject(error));
+        })
 
 	},
 
