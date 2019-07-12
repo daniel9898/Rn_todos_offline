@@ -9,13 +9,13 @@ export function fetchTodosInit() {
 export function fetchTodosFailure(error) {
     return {
         type: todosConstant.FETCH_TODOS_FAILURE,
-        payload: error,
+        error
     };
 };
 export function fetchTodosSuccess(data) {
     return {
         type: todosConstant.FETCH_TODOS_SUCCESS,
-        payload: data,
+        data
     };
 };
 export function fetchTodos() {
@@ -42,14 +42,14 @@ export const addTodoInit = () => {
 export const addTodoFailure = error => {
 	return {
 		type: todosConstant.ADD_TODO_FAILURE,
-		payload: error
+		error
 	}
 }
 
 export const addTodoSuccess = data => {
 	return {
 		type: todosConstant.ADD_TODO_SUCCESS,
-		payload: data
+		data
     }
 }
 
@@ -78,14 +78,13 @@ export const deleteTodoInit = () => {
 export const deleteTodoFailure = error => {
     return {
         type: todosConstant.DELETE_TODO_FAILURE,
-        payload: error
+        error
     }
 }
 
-export const deleteTodoSuccess = data => {
+export const deleteTodoSuccess = () => {
     return {
-        type: todosConstant.DELETE_TODO_SUCCESS,
-        payload: data
+        type: todosConstant.DELETE_TODO_SUCCESS
     }
 }
 

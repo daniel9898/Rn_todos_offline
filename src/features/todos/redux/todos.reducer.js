@@ -11,11 +11,11 @@ export default function todosReducer (state= initialState.getIn(['todos']), acti
             
         case todosActions.ADD_TODO_FAILURE:
             return state.set('loading', false)
-                        .set('error', fromJS(action.payload));
+                        .set('error', fromJS(action.error));
 
         case todosActions.ADD_TODO_SUCCESS:
             return state.set('loading', false)
-                        .update('list', todos => todos.push(action.payload));
+                        .update('list', todos => todos.push(action.data));
 
         // --- FETCH ---
         case todosActions.FETCH_TODOS_INIT:
@@ -23,11 +23,11 @@ export default function todosReducer (state= initialState.getIn(['todos']), acti
 
         case todosActions.FETCH_TODOS_FAILURE:
             return state.set('loading', false)
-                        .set('error', fromJS(action.payload));
+                        .set('error', fromJS(action.error));
 
         case todosActions.FETCH_TODOS_SUCCESS:
             return state.set('loading', false)
-                        .set('list', fromJS(action.payload)) 
+                        .set('list', fromJS(action.data)) 
 
         // --- DELETE ---
         case todosActions.DELETE_TODO_INIT:
@@ -35,7 +35,7 @@ export default function todosReducer (state= initialState.getIn(['todos']), acti
 
         case todosActions.DELETE_TODO_FAILURE:
             return state.set('loading', false)
-                        .set('error', fromJS(action.payload));
+                        .set('error', fromJS(action.error));
 
         case todosActions.DELETE_TODO_SUCCESS:
             return state.set('loading', false);
