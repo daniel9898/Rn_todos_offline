@@ -90,14 +90,11 @@ export const deleteTodoSuccess = data => {
 }
 
 export const deleteTodo = id => {
-    console.log('TODO A BORRAR ',id);
     return async (dispatch) => {
         dispatch(deleteTodoInit());
-      
         try {
             let response = await todosConnection.delete(id);
-            console.log('response delete',response);
-            return dispatch(deleteTodoSuccess(response));
+            return dispatch(deleteTodoSuccess());
         } catch (error) {
             return dispatch(deleteTodoFailure(error));
         }

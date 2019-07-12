@@ -1,3 +1,7 @@
+//http://fullstackdeveloper.info/redux-state-with-immutable-js-normalizr-and-reselect/
+//http://untangled.io/immutable-js-get-set-update-and-delete-data-from-maps/
+//https://stackoverflow.com/questions/30450615/immutable-js-converting-fetched-data-to-immutable
+
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
@@ -25,12 +29,17 @@ export default class ListTodos extends Component {
   }
   
   render() {
-    console.log('{this.props.todos ', this.props.todos);
+    const todos = this.props.todos.get('list').toJS();
+
+    /*todos.map(t => {
+      console.log('id --> ',t.get('id'));
+      console.log('name --> ',t.get('name'));
+    })*/
 
     return (
       <View style={styles.container}>
         <FlatList
-          data={this.props.todos.getIn(['list'])}
+          data={todos}
           renderItem={this.renderItem}
           keyExtractor={this._keyExtractor}
         />

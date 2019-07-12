@@ -25,10 +25,7 @@ class TodosContainer extends PureComponent {
 const makeMapStateToProps = () => {
     const getTodosState = makeGetTodos();
 
-
     const mapStateToProps = (state) => {
-  
-        console.log(' getTodosState(state) ', getTodosState(state));
         return {
             todos: getTodosState(state)
         };

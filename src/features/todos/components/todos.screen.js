@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React from 'react';
 //import {Platform, StyleSheet, Text, View} from 'react-native';
 import AddTodo from './addTodo.cmp';
 import ListTodos from './listTodos.cmp';
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Content, Card, CardItem } from "native-base";
 import { DrawerActions } from 'react-navigation';
 
-export default class TodosScreen extends Component {
+export default class TodosScreen extends React.Component {
 
   render() {
     return (
