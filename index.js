@@ -13,8 +13,6 @@ import thunk from 'redux-thunk';
 import initialState from './src/redux/initialState';
 
 //VERIFICAR https://medium.com/@tetsuyahasegawa/how-to-integrate-react-native-debugger-to-your-expo-react-native-project-db1d631fad02
-//PARA VER QUE LANZE RN DEBUGER NO EL DEBUGGER ORIGINAL
-
 const middlewares = [thunk, logger];
 const enhancer = composeWithDevTools(
 	applyMiddleware(...middlewares)

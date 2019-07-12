@@ -25,10 +25,12 @@ export default class ListTodos extends Component {
   }
   
   render() {
+    console.log('{this.props.todos ', this.props.todos);
+
     return (
       <View style={styles.container}>
         <FlatList
-          data={this.props.todos.list}
+          data={this.props.todos.getIn(['list'])}
           renderItem={this.renderItem}
           keyExtractor={this._keyExtractor}
         />

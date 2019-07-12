@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-const getTodosState = state => state.todos;
+const getTodosState = state => state.getIn(['todos']);
 
 export const makeGetTodos = () => createSelector(
     getTodosState,

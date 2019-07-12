@@ -1,7 +1,7 @@
 import * as todosActions from './todos.constants';
 import initialState from '../../../redux/initialState';
 
-export default function todosReducer (state= initialState.todos, action) {
+export default function todosReducer (state= initialState.getIn(['todos']), action) {
   
     switch (action.type) {
         // --- ADD ---
