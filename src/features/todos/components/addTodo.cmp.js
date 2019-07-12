@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, TextInput, View, TouchableOpacity } from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
 
-export default class AddTodo extends Component {
+export default class AddTodo extends React.PureComponent {
 
   state = {
     text: ''
@@ -15,6 +15,7 @@ export default class AddTodo extends Component {
   }
 
   render() {
+     console.log('AddTodo');
     return (
       <View style={styles.container}>
           <TextInput

@@ -5,9 +5,10 @@ import ListTodos from './listTodos.cmp';
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Content, Card, CardItem } from "native-base";
 import { DrawerActions } from 'react-navigation';
 
-export default class TodosScreen extends React.Component {
+export default class TodosScreen extends React.PureComponent {
 
   render() {
+    console.log('TodosScreen');
     return (
       <Container>
         <Header>

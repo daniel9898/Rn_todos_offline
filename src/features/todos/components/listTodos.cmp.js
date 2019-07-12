@@ -2,12 +2,13 @@
 //http://untangled.io/immutable-js-get-set-update-and-delete-data-from-maps/
 //https://stackoverflow.com/questions/30450615/immutable-js-converting-fetched-data-to-immutable
 
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
+import { ListItem } from "react-native-elements";
 import Icon from "react-native-vector-icons/Ionicons";
 import todoDb from '../todos.db';
 
-export default class ListTodos extends Component {
+export default class ListTodos extends React.PureComponent {
 
   _keyExtractor = (item, index) => item.id.toString();
 
@@ -18,17 +19,20 @@ export default class ListTodos extends Component {
 
   renderItem = item => {
     return (
-      <View style={styles.textSection}>
-        <Text style={styles.item}>
-          {item.item.name}
-        </Text>
-        <TouchableOpacity onPress={() => this.deleteTodo(item.item.id)}>
-          <Icon style={styles.Icon} name="ios-trash" size={30} color="red"/>
-        </TouchableOpacity>
-      </View>)
+            <ListItem
+              roundAvatar
+              title={`${item.item.name}`}
+              subtitle={item.item.status}
+              rightIcon={{ name: 'remove-circle'}}
+              containerStyle={{ borderBottomWidth: 0 }}
+              onPress={() => this.deleteTodo(item.item.id)}
+            />
+          )
+ 
   }
   
   render() {
+     console.log('ListTodos');
     const todos = this.props.todos.get('list').toJS();
 
     /*todos.map(t => {
@@ -50,23 +54,8 @@ export default class ListTodos extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'white',
+      flex: 1,
+   
   },
 
-  textSection: {
-      flexDirection: 'row',
-      backgroundColor: '#fff',
-  },
-
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-  },
-
-  text: {
-    padding: 4,
-    fontSize: 25,
-  }
 });
