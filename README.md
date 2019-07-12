@@ -2,7 +2,7 @@
 Una tipica app para agregar y eliminar tareas de manera offline.  
 
 STACK :
--React Native
--Redux
--Sqlite
--Inmutable js
+* React Native
+* Redux
+* Sqlite
+* Inmutable js
