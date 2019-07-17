@@ -16,7 +16,19 @@ export default todosConnection = {
         })
 	},
 
-	update(){
+	update(todo){
+	    const db = getConnection();
+	    let query = "UPDATE todos SET name=(?),status=(?) WHERE id=(?)";
+	    let params = [todo.name, todo.status, todo.id];
+	   
+	    return new Promise((resolve, reject) => {    	
+	    	db.transaction((tx) => {
+			    tx.executeSql(query, params, (tx, results) => {
+			     	resolve(results);
+			    });
+			},
+			error => reject(error));
+        })
 
 	},
 
@@ -39,8 +51,6 @@ export default todosConnection = {
 			error => reject(error));
         })
 	},
-
-
 
 	getById(id){
 	    const db = getConnection();

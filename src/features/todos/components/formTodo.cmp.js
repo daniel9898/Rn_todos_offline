@@ -1,58 +1,35 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Button, Header, Left, Body, Title, Right, Container, Content, Icon } from "native-base";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import InputWrapper from './input.cmp';
-import Icon from "react-native-vector-icons/Ionicons";
+//import Icon from "react-native-vector-icons/Ionicons";
+import { DrawerActions } from 'react-navigation';
 
-const api = user =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (user.email === 'hello@gmail.com') {
-        reject({ email: 'Email already use' });
-      } else {
-        resolve();
-      }
-    }, 3000);
-  });
+export default class FormTodo extends React.PureComponent {
 
-export default class FormTodo extends React.Component {
-
-  constructor(props){
-    super(props)
-    console.log('PARAMS ', props.navigation.getParam('todo'));
-    
-  }
-
-  _handleSubmit = async (values, bag) => {
-    console.log('values ',values);
-     console.log('bag ',bag);
-  
-    try {
-      await api(values);
-      Alert.alert('Welcome');
-    } catch (error) { 
-      bag.setSubmitting(false);
-      bag.setErrors(error);
-    }
+  _handleSubmit = async (todo, bag) => {
+    this.props.todosActions.updateTodo(todo);
   };
 
   render() {
-    const todo = this.props.navigation.getParam('todo').item;
+    let todo = this.props.navigation.getParam('todo');
 
     return (
-      <View style={styles.container}>
+      <Container>
         <Formik
+          enableReinitialize
+          //isInitialValidal={true}
           initialValues={todo}
           onSubmit={this._handleSubmit.bind(this)}
 
           validationSchema={Yup.object().shape({
             name: Yup.string()
-              .min(4)
+              .min(4,'El minimo de caracteres debe ser de 4')
               .required('El nombre es requerido'),
             status: Yup.string()
-              .min(6)
+              .min(6,'El minimo de caracteres debe ser de 6')
               .required('El estado es requerido'),
           })}
 
@@ -63,70 +40,69 @@ export default class FormTodo extends React.Component {
             errors,
             touched,
             setFieldTouched,
-            isValid,
-            isSubmitting,
+            //isValid,
+            //isSubmitting,
           }) => (
-
-            <React.Fragment>
-              <InputWrapper
-                label="Nombre"
-                autoCapitalize="none"
-                value={values.name}
-                onChange={setFieldValue}
-                onTouch={setFieldTouched}
-                name="name"
-                error={touched.name && errors.name}
-              />
-              <InputWrapper
-                label="Estado"
-                autoCapitalize="none"
-                value={values.status}
-                onChange={setFieldValue}
-                onTouch={setFieldTouched}
-                name="status"
-                error={touched.status && errors.status}
-              />
-              <Button
-                icon={
-                  <Icon
-                    name="ios-send"
-                    size={30}
-                    color="white"
-                  />
-                }
-                buttonStyle={styles.button}
-                containerStyle={styles.buttonContainer}
-                title="Enviar"
-                onPress={handleSubmit}
-                disabled={!isValid || isSubmitting}
-                loading={isSubmitting}
-              />
-            </React.Fragment>
-
+            <Content>
+              <Header>
+                <Left>
+                  <Button
+                    transparent
+                    onPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}>
+                    <Icon name="ios-menu" />
+                  </Button>
+                </Left>
+                <Body>
+                  <Title>Altas</Title>
+                </Body>
+                <Right />
+              </Header>
+              <View style={styles.Content}>
+                <InputWrapper
+                  label="Nombre"
+                  autoCapitalize="none"
+                  value={values.name}
+                  onChange={setFieldValue}
+                  onTouch={setFieldTouched}
+                  name="name"
+                  error={touched.name && errors.name}
+                />
+                <InputWrapper
+                  label="Estado"
+                  autoCapitalize="none"
+                  value={values.status}
+                  onChange={setFieldValue}
+                  onTouch={setFieldTouched}
+                  name="status"
+                  error={touched.status && errors.status}
+                />
+             
+                <Button full rounded
+                  disabled={!Object.keys(errors).length === 0}
+                  style={styles.button}
+                  onPress={handleSubmit}>
+                  <Text>Guardar  </Text>
+                  <Icon name="md-send" size={25}/>
+                </Button>
+              </View>
+            </Content>
           )}
         />
-      </View>
+      </Container>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  Content: {
+    marginTop: 20,
   },
 
   button:{
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'space-between'
+    marginTop: 25,
+    backgroundColor: '#00FF00',
+    marginLeft: 20,
+    marginRight: 20
   },
 
-  buttonContainer: {
-    marginTop: 20,
-    width: '100%',
-    alignItems: 'center',
-
-  },
 });

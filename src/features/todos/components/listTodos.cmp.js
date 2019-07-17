@@ -12,8 +12,8 @@ export default class ListTodos extends React.PureComponent {
 
   _keyExtractor = (item, index) => item.id.toString();
 
-  deleteTodo = async id => {
-    await this.props.todosActions.deleteTodo(id);
+  deleteTodo = async todo => {
+    await this.props.todosActions.deleteTodo(todo.id);
     this.props.todosActions.fetchTodos();
   }
 
@@ -25,12 +25,12 @@ export default class ListTodos extends React.PureComponent {
               subtitle={item.item.status}
               rightIcon={{ name: 'check', color:'green'}}
               containerStyle={{ borderBottomWidth: 0 }}
-              onPress={() => this.props.navigation.navigate("Edit", {todo: item})}
+              onPress={() => this.props.navigation.navigate("Edit", { todo: item.item })}
             />
           )
   }
 
-  windowConfirm(title, msg, callbackOk, task){
+  windowConfirm = (title, msg, callbackOk, task) => {
     Alert.alert(
       title,
       msg,
@@ -56,7 +56,7 @@ export default class ListTodos extends React.PureComponent {
         </View>
         <View>
              <Icon
-                onPress={() => this.updateTask(item)}   
+                onPress={() => this.props.navigation.navigate("Edit", { todo: item })}
                 key={item.id}
                 name='ios-create'
                 size={35}
@@ -68,10 +68,6 @@ export default class ListTodos extends React.PureComponent {
     )
   }
 
-  updateTask(task){
-    console.log("task a actualizar ",task);
-  }
-  
   render() {
     console.log('ListTodos');
     const todos = this.props.todos.get('list').toJS();
@@ -99,7 +95,6 @@ export default class ListTodos extends React.PureComponent {
 const styles = StyleSheet.create({
   container: {
       flex: 1,
-   
   },
 
   rowBack: {

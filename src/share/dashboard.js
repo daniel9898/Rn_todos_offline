@@ -31,7 +31,7 @@ export default class Dashboard extends React.Component {
           <Card>
             <CardItem>
               <Body>
-                <Text>Chat App to talk some awesome people!</Text>
+                <Text>Una app para agregar tareas en modo offline!</Text>
               </Body>
             </CardItem>
           </Card>
@@ -39,11 +39,6 @@ export default class Dashboard extends React.Component {
             style={{ marginTop: 10 }}
             onPress={() => this.props.navigation.navigate("Todos")}>
             <Text>Todos</Text>
-          </Button>
-          <Button full rounded primary
-            style={{ marginTop: 10 }}
-            onPress={() => this.props.navigation.navigate("Dashboard")}>
-            <Text>Dashboard</Text>
           </Button>
         </Content>
       </Container>

@@ -26,11 +26,26 @@ export default function todosReducer (state= initialState.getIn(['todos']), acti
 
         case todosActions.FETCH_TODOS_SUCCESS:
             return state.set('loading', false)
-                        .set('list', fromJS(action.data)) 
+                        .set('list', fromJS(action.data))
 
+        // --- UPDATE ---
+        case todosActions.UPDATE_TODO_INIT:
+            return state.set('loading', true);        
+            
+        case todosActions.UPDATE_TODO_FAILURE:
+            return state.set('loading', false)
+                        .set('error', fromJS(action.error));
+
+        case todosActions.UPDATE_TODO_SUCCESS:
+            const index = state.get('list').findIndex(listing => {
+                return listing.get('id') === action.data.id;
+            });
+            return state.set('loading', false) 
+                        .setIn(['list', index], action.data);
+                        
         // --- DELETE ---
         case todosActions.DELETE_TODO_INIT:
-            return state.set('loading', true);     
+            return state.set('loading', true);     index
 
         case todosActions.DELETE_TODO_FAILURE:
             return state.set('loading', false)

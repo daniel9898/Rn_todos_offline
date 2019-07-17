@@ -67,6 +67,43 @@ export const addTodo = text => {
     };
 }
 
+// --- UPDATE ---
+
+export const updateTodoInit = () => {
+    console.log('updateTodoInit ');
+    return {
+        type: todosConstant.UPDATE_TODO_INIT
+    }
+}
+
+export const updateTodoFailure = error => {
+    return {
+        type: todosConstant.UPDATE_TODO_FAILURE,
+        error
+    }
+}
+
+export const updateTodoSuccess = data => { 
+    return {
+        type: todosConstant.UPDATE_TODO_SUCCESS,
+        data
+    }
+}
+
+export const updateTodo = data => {
+    return async (dispatch) => {
+        dispatch(updateTodoInit());
+      
+        try {
+            let response = await todosConnection.update(data);
+            let todo = await todosConnection.getById(data.id);
+            return dispatch(updateTodoSuccess(todo[0]));
+        } catch (error) {
+            return dispatch(updateTodoFailure(error));
+        }
+    };
+}
+
 // --- DELETE ---
 
 export const deleteTodoInit = () => {

@@ -4,12 +4,10 @@ import { Input } from "react-native-elements";
 
 export default class InputWrapper extends PureComponent {
   _handleChange = value => {
-  	console.log('_handleChange ',value);
     this.props.onChange(this.props.name, value);
   };
 
   _handleTouch = () => {
-  	console.log('_handleTouch ');
     this.props.onTouch(this.props.name);
   };
 
@@ -36,5 +34,6 @@ const styles = StyleSheet.create({
   root: {
     width: '90%',
     alignSelf: 'center',
+    marginTop: 3,
   },
 });
