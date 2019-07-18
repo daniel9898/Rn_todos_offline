@@ -1,33 +1,33 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Input } from "react-native-elements";
 
-export default class InputWrapper extends PureComponent {
-  _handleChange = value => {
-    this.props.onChange(this.props.name, value);
+const InputWrapper = props => {
+  const { name, label, error, onChange, onTouch, ...rest } = props;
+
+  handleChange = value => {
+    onChange(name, value);
   };
 
-  _handleTouch = () => {
-    this.props.onTouch(this.props.name);
+  handleTouch = () => {
+    onTouch(name);
   };
 
-  render() {
-    const { label, error, ...rest } = this.props;
-    return (
-	    <View style={styles.root}>
-		    <Input
-			    label={label}
-			    errorMessage={error}
-			    //leftIcon={{ type: 'font-awesome', name: 'chevron-left' }}
-			    errorStyle={{ color: 'red' }}
-			    onChangeText={this._handleChange}
-			    onBlur={this._handleTouch}
-			    placeholder={label}
-			    {...rest}
-			/>
-	    </View>
-    );
-  }
+  return (
+    <View style={styles.root}>
+      <Input
+        label={label}
+        errorMessage={error}
+        //leftIcon={{ type: 'font-awesome', name: 'chevron-left' }}
+        errorStyle={{ color: 'red' }}
+        onChangeText={handleChange}
+        onBlur={handleTouch}
+        placeholder={label}
+        {...rest}
+    />
+    </View>
+  )
+
 }
 
 const styles = StyleSheet.create({
@@ -37,3 +37,5 @@ const styles = StyleSheet.create({
     marginTop: 3,
   },
 });
+
+export default InputWrapper;

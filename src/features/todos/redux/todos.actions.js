@@ -137,3 +137,16 @@ export const deleteTodo = id => {
     };
 }
 
+// --- SELECT ---
+
+export const selectTodoInit = todoId => {
+    return {
+        type: todosConstant.SELECT_TODO,
+        payload: todoId,
+    };
+};
+export const selectTodo = todoId => {
+    return async dispatch => {
+        dispatch(selectTodoInit(todoId));
+    };
+};

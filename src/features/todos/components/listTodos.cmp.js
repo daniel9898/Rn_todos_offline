@@ -8,16 +8,30 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { SwipeListView } from 'react-native-swipe-list-view';
 import todoDb from '../todos.db';
 
+/*
+VOY CREAR UNA PROPIEDAD SELECTED Y CON ESO VOY A MANEJAR EL UPDATE
+COMO LO HACEN EN VOLUNTARIADO
+YA HICE LA CONSTANTE Y LA ACCION
+FALTA EL REDUCER E IMPLEMENTARLO EN LA LISTA CUANDO SE SELECCIONA 
+
+*/
+
 export default class ListTodos extends React.PureComponent {
+
+  constructor(props){
+    super(props);
+    this.deleteTodo = this.deleteTodo.bind(this);
+  }
 
   _keyExtractor = (item, index) => item.id.toString();
 
-  deleteTodo = async todo => {
+  async deleteTodo(todo){
     await this.props.todosActions.deleteTodo(todo.id);
     this.props.todosActions.fetchTodos();
   }
 
   renderItem = item => {
+    console.log('item ',item);
     return (
             <ListItem
               roundAvatar
@@ -46,7 +60,7 @@ export default class ListTodos extends React.PureComponent {
       <View style={styles.rowBack}>
         <View>
              <Icon    
-                onPress={() => this.windowConfirm(`${item.name}`,'Esta seguro que desea eliminar esta tarea ?',this.deleteTodo.bind(this), item ) }
+                onPress={() => this.windowConfirm(`${item.name}`,'Esta seguro que desea eliminar esta tarea ?',this.deleteTodo, item ) }
                 key={item.id}
                 name='ios-trash'
                 size={35}
@@ -69,13 +83,7 @@ export default class ListTodos extends React.PureComponent {
   }
 
   render() {
-    console.log('ListTodos');
     const todos = this.props.todos.get('list').toJS();
-
-    /*todos.map(t => {
-      console.log('id --> ',t.get('id'));
-      console.log('name --> ',t.get('name'));
-    })*/
 
     return (
       <View style={styles.container}>
@@ -94,7 +102,7 @@ export default class ListTodos extends React.PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-      flex: 1,
+    flex: 1,
   },
 
   rowBack: {

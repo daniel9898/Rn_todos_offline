@@ -9,6 +9,11 @@ import { DrawerActions } from 'react-navigation';
 
 export default class FormTodo extends React.PureComponent {
 
+  constructor(props){
+    super(props);//para poder utilizar this.props aca adentro
+    this._handleSubmit = this._handleSubmit.bind(this);
+  }
+
   _handleSubmit = async (todo, bag) => {
     this.props.todosActions.updateTodo(todo);
   };
@@ -22,7 +27,7 @@ export default class FormTodo extends React.PureComponent {
           enableReinitialize
           //isInitialValidal={true}
           initialValues={todo}
-          onSubmit={this._handleSubmit.bind(this)}
+          onSubmit={this._handleSubmit}
 
           validationSchema={Yup.object().shape({
             name: Yup.string()

@@ -6,3 +6,4 @@ STACK :
 * Redux
 * Sqlite
 * Inmutable js
+* formik

@@ -14,7 +14,7 @@ export default function todosReducer (state= initialState.getIn(['todos']), acti
 
         case todosActions.ADD_TODO_SUCCESS:
             return state.set('loading', false)
-                        .update('list', todos => todos.push(action.data));
+                        .update('list', todos => todos.push(fromJS(action.data)));
 
         // --- FETCH ---
         case todosActions.FETCH_TODOS_INIT:
@@ -41,11 +41,11 @@ export default function todosReducer (state= initialState.getIn(['todos']), acti
                 return listing.get('id') === action.data.id;
             });
             return state.set('loading', false) 
-                        .setIn(['list', index], action.data);
+                        .setIn(['list', index], fromJS(action.data));
                         
         // --- DELETE ---
         case todosActions.DELETE_TODO_INIT:
-            return state.set('loading', true);     index
+            return state.set('loading', true);     
 
         case todosActions.DELETE_TODO_FAILURE:
             return state.set('loading', false)

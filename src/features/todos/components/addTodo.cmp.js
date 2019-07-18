@@ -15,7 +15,6 @@ export default class AddTodo extends React.PureComponent {
   }
 
   render() {
-     console.log('AddTodo');
     return (
       <View style={styles.container}>
           <TextInput
