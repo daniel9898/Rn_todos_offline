@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert, VirtualizedList } from 'react-native';
+import { SwipeRow, Button } from 'native-base';
 import Icon from "react-native-vector-icons/Ionicons";
 import todoDb from '../todos.db';
-import { SwipeRow, Button } from 'native-base';
 
 export default class ListTodos extends React.PureComponent {
 
@@ -35,7 +35,11 @@ export default class ListTodos extends React.PureComponent {
 
   getHideElementLeft = todo => {
     return (
-      <Button danger onPress={() => this.deleteTodo(todo)}>
+      <Button danger onPress={
+        () =>  this.Confirm(`${todo.get('name')}`,
+                            'Esta seguro que desea eliminar esta tarea ?',
+                            this.deleteTodo, todo)
+      }>
         <Icon name="ios-trash" size={30}/>
       </Button>
     )
@@ -58,7 +62,7 @@ export default class ListTodos extends React.PureComponent {
     )
   }
 
-  windowConfirm = (title, msg, callbackOk, task) => {
+  Confirm = (title, msg, callbackOk, task) => {
     Alert.alert(
       title,
       msg,
