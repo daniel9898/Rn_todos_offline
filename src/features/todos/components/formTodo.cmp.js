@@ -10,9 +10,14 @@ import { DrawerActions } from 'react-navigation';
 export default class FormTodo extends React.PureComponent {
 
   constructor(props){
-    super(props);//para poder utilizar this.props aca adentro
+    super(props);
     this._handleSubmit = this._handleSubmit.bind(this);
   }
+
+  //USAREMOS EL FORMULARIO SIN REDUX ,MIENTRAS NO NECESITEMOS PERSISTIR ESOS DATOS PARA USARLOS EN OTROS COMPONENTES
+  //NO ES NECESARIO, USAREMOS EL ESTADO INTERNO DEL COMPONENTE PARA GUARDAR LOS DATOS Y LOS TRANSFORMAREMOS EN UN MAPA
+  //INMUTABLE
+  //https://www.freecodecamp.org/news/handling-state-in-react-four-immutable-approaches-to-consider-d1f5c00249d5/
 
   _handleSubmit = async (todo, bag) => {
     this.props.todosActions.updateTodo(todo);
@@ -26,7 +31,7 @@ export default class FormTodo extends React.PureComponent {
         <Formik
           enableReinitialize
           //isInitialValidal={true}
-          initialValues={todo}
+          initialValues={todo.toJS()}
           onSubmit={this._handleSubmit}
 
           validationSchema={Yup.object().shape({
