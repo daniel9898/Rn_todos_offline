@@ -27,11 +27,9 @@ export default class ListTodos extends React.PureComponent {
 
   async deleteTodo(todo){
     await this.props.todosActions.deleteTodo(todo.id);
-    this.props.todosActions.fetchTodos();
   }
 
   renderItem = item => {
-    console.log('item ',item);
     return (
             <ListItem
               roundAvatar
@@ -83,6 +81,8 @@ export default class ListTodos extends React.PureComponent {
   }
 
   render() {
+    console.log('this.props ---> ',this.props)
+    console.log('this.props.todos.toJS() ---> ',this.props.todos.toJS())
     const todos = this.props.todos.get('list').toJS();
 
     return (

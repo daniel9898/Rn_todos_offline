@@ -119,9 +119,12 @@ export const deleteTodoFailure = error => {
     }
 }
 
-export const deleteTodoSuccess = () => {
+export const deleteTodoSuccess = id => {
     return {
-        type: todosConstant.DELETE_TODO_SUCCESS
+        type: todosConstant.DELETE_TODO_SUCCESS,
+        payload: {
+            id
+        }
     }
 }
 
@@ -130,7 +133,7 @@ export const deleteTodo = id => {
         dispatch(deleteTodoInit());
         try {
             let response = await todosConnection.delete(id);
-            return dispatch(deleteTodoSuccess());
+            return dispatch(deleteTodoSuccess(id));
         } catch (error) {
             return dispatch(deleteTodoFailure(error));
         }
