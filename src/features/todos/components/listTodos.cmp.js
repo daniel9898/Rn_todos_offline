@@ -1,47 +1,61 @@
-//http://fullstackdeveloper.info/redux-state-with-immutable-js-normalizr-and-reselect/
-//http://untangled.io/immutable-js-get-set-update-and-delete-data-from-maps/
-//https://stackoverflow.com/questions/30450615/immutable-js-converting-fetched-data-to-immutable
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
-import { ListItem } from "react-native-elements";
+import { StyleSheet, Text, View, Alert, VirtualizedList } from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
-import { SwipeListView } from 'react-native-swipe-list-view';
 import todoDb from '../todos.db';
-
-/*
-VOY CREAR UNA PROPIEDAD SELECTED Y CON ESO VOY A MANEJAR EL UPDATE
-COMO LO HACEN EN VOLUNTARIADO
-YA HICE LA CONSTANTE Y LA ACCION
-FALTA EL REDUCER E IMPLEMENTARLO EN LA LISTA CUANDO SE SELECCIONA 
-
-*/
+import { SwipeRow, Button } from 'native-base';
 
 export default class ListTodos extends React.PureComponent {
 
   constructor(props){
     super(props);
     this.deleteTodo = this.deleteTodo.bind(this);
+    this.getItemBody = this.getItemBody.bind(this);
+    this.getHideElementLeft = this.getHideElementLeft.bind(this);
+    this.getHideElementRight = this.getHideElementRight.bind(this);
   }
-
-  _keyExtractor = (item, index) => item.id.toString();
 
   async deleteTodo(todo){
     await this.props.todosActions.deleteTodo(todo.id);
     this.props.todosActions.fetchTodos();
   }
 
+
   renderItem = item => {
-    console.log('item ',item);
+    const todo = item.item;
     return (
-            <ListItem
-              roundAvatar
-              title={`${item.item.name}`}
-              subtitle={item.item.status}
-              rightIcon={{ name: 'check', color:'green'}}
-              containerStyle={{ borderBottomWidth: 0 }}
-              onPress={() => this.props.navigation.navigate("Edit", { todo: item.item })}
-            />
-          )
+      <SwipeRow
+        leftOpenValue={75}
+        rightOpenValue={-75}
+        left={this.getHideElementLeft(todo)}
+        body={this.getItemBody(todo)}
+        right={this.getHideElementRight(todo)}
+      />
+    )
+  }
+
+  getHideElementLeft = todo => {
+    return (
+      <Button danger onPress={() => this.deleteTodo(todo)}>
+        <Icon name="ios-trash" size={30}/>
+      </Button>
+    )
+  }
+
+  getItemBody = todo => {
+    return (
+      <View style={{marginLeft: 10, marginRight: 10}}>
+        <Text style={{fontSize: 15, color: 'black'}}>{ todo.get('name') }</Text>
+        <Text>{ todo.get('status') }</Text>
+      </View>
+    )
+  }
+
+  getHideElementRight = todo => {
+    return (
+      <Button success onPress={() => this.props.navigation.navigate("Edit", { todo })}>
+        <Icon name="ios-add" size={30}/>
+      </Button>
+    )
   }
 
   windowConfirm = (title, msg, callbackOk, task) => {
@@ -55,46 +69,18 @@ export default class ListTodos extends React.PureComponent {
     )
   }
 
-  renderHiddenItem = ({ item, rowMap }) => {
-    return (
-      <View style={styles.rowBack}>
-        <View>
-             <Icon    
-                onPress={() => this.windowConfirm(`${item.name}`,'Esta seguro que desea eliminar esta tarea ?',this.deleteTodo, item ) }
-                key={item.id}
-                name='ios-trash'
-                size={35}
-                color='red'
-                style={{ height: 35, width: 35 }}
-                backgroundColor="white" />
-        </View>
-        <View>
-             <Icon
-                onPress={() => this.props.navigation.navigate("Edit", { todo: item })}
-                key={item.id}
-                name='ios-create'
-                size={35}
-                color='orange'
-                style={{ height: 35, width: 35 }}
-                backgroundColor="white" />
-        </View>
-      </View>
-    )
-  }
-
   render() {
-    const todos = this.props.todos.get('list').toJS();
-
+    const todos = this.props.todos.get('list');
     return (
       <View style={styles.container}>
-        <SwipeListView
-          data={todos}
-          renderItem={this.renderItem}
-          keyExtractor={this._keyExtractor}
-          renderHiddenItem={this.renderHiddenItem}
-          leftOpenValue={75}
-          rightOpenValue={-75}
-        />
+          <VirtualizedList
+            data={todos}
+            getItemCount={data => data.size}
+            getItem={(data, index) => data.get(index.toString())}
+            keyExtractor={(item, index) => item.get('id').toString()}
+            renderItem={this.renderItem}
+          />
+      
       </View>
     );
   }
@@ -103,18 +89,7 @@ export default class ListTodos extends React.PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-
-  rowBack: {
-    alignItems: 'center',
-    backgroundColor: '#DDD',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-
+  }
 });
 
 
