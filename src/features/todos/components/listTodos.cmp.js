@@ -84,7 +84,6 @@ export default class ListTodos extends React.PureComponent {
             keyExtractor={(item, index) => item.get('id').toString()}
             renderItem={this.renderItem}
           />
-      
       </View>
     );
   }
