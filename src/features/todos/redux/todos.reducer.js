@@ -37,11 +37,9 @@ export default function todosReducer (state= initialState.getIn(['todos']), acti
                         .set('error', fromJS(action.error));
 
         case todosActions.UPDATE_TODO_SUCCESS:
-            const index = state.get('list').findIndex(listing => {
-                return listing.get('id') === action.data.id;
-            });
+            let indexToUpdate = getIndexById(state, action.data.id);
             return state.set('loading', false) 
-                        .setIn(['list', index], fromJS(action.data));
+                        .setIn(['list', indexToUpdate], fromJS(action.data));
                         
         // --- DELETE ---
         case todosActions.DELETE_TODO_INIT:
@@ -52,11 +50,18 @@ export default function todosReducer (state= initialState.getIn(['todos']), acti
                         .set('error', fromJS(action.error));
 
         case todosActions.DELETE_TODO_SUCCESS:
-            return state.set('loading', false);
-                        //.get('list').filter(t => t.get(id) !== action.id);
+            let indexToRemove = getIndexById(state, action.id);
+            return state.set('loading', false) 
+                        .deleteIn(['list', indexToRemove]);
         default:
             return state;
     }
 };
 
+
+getIndexById = (state, id) => {
+    return state.get('list').findIndex(listing => {
+        return listing.get('id') === id;
+    });
+}
 

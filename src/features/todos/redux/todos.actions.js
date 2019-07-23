@@ -119,34 +119,23 @@ export const deleteTodoFailure = error => {
     }
 }
 
-export const deleteTodoSuccess = () => {
+export const deleteTodoSuccess = id => {
     return {
-        type: todosConstant.DELETE_TODO_SUCCESS
+        type: todosConstant.DELETE_TODO_SUCCESS,
+        id
     }
 }
 
 export const deleteTodo = id => {
+    console.log('id',id);
     return async (dispatch) => {
         dispatch(deleteTodoInit());
         try {
             let response = await todosConnection.delete(id);
-            return dispatch(deleteTodoSuccess());
+            return dispatch(deleteTodoSuccess(id));
         } catch (error) {
             return dispatch(deleteTodoFailure(error));
         }
     };
 }
 
-// --- SELECT ---
-
-export const selectTodoInit = todoId => {
-    return {
-        type: todosConstant.SELECT_TODO,
-        payload: todoId,
-    };
-};
-export const selectTodo = todoId => {
-    return async dispatch => {
-        dispatch(selectTodoInit(todoId));
-    };
-};
