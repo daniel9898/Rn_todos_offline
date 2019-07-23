@@ -37,9 +37,7 @@ export default function todosReducer (state= initialState.getIn(['todos']), acti
                         .set('error', fromJS(action.error));
 
         case todosActions.UPDATE_TODO_SUCCESS:
-            let indexToUpdate = state.get('list').findIndex(listing => {
-                return listing.get('id') === action.data.id;
-            });
+            let indexToUpdate = getIndexById(state, action.data.id);
             return state.set('loading', false) 
                         .setIn(['list', indexToUpdate], fromJS(action.data));
                         
@@ -52,9 +50,9 @@ export default function todosReducer (state= initialState.getIn(['todos']), acti
                         .set('error', fromJS(action.error));
 
         case todosActions.DELETE_TODO_SUCCESS:
-            let indexToRemove = getIndexById(state, action.payload.id);
+            let indexToRemove = getIndexById(state, action.id);
             return state.set('loading', false) 
-                        .get('list').delete(indexToRemove);
+                        .deleteIn(['list', indexToRemove]);
         default:
             return state;
     }

@@ -15,8 +15,7 @@ export default class ListTodos extends React.PureComponent {
   }
 
   async deleteTodo(todo){
-    await this.props.todosActions.deleteTodo(todo.id);
-    this.props.todosActions.fetchTodos();
+    await this.props.todosActions.deleteTodo(todo.get('id'));
   }
 
 
@@ -38,7 +37,7 @@ export default class ListTodos extends React.PureComponent {
       <Button danger onPress={
         () =>  this.Confirm(`${todo.get('name')}`,
                             'Esta seguro que desea eliminar esta tarea ?',
-                            this.deleteTodo, todo)
+                            () => this.deleteTodo(todo))
       }>
         <Icon name="ios-trash" size={30}/>
       </Button>
@@ -62,13 +61,13 @@ export default class ListTodos extends React.PureComponent {
     )
   }
 
-  Confirm = (title, msg, callbackOk, task) => {
+  Confirm = (title, msg, callbackOk) => {
     Alert.alert(
       title,
       msg,
       [
         {text: 'Cancelar', onPress: () => { return false }, style: 'cancel'},
-        {text: 'OK', onPress: () => { callbackOk != null ? callbackOk(task) : 'sin callback' } },
+        {text: 'OK', onPress: () => { callbackOk != null ? callbackOk() : 'sin callback' } },
       ],
     )
   }
@@ -80,7 +79,7 @@ export default class ListTodos extends React.PureComponent {
           <VirtualizedList
             data={todos}
             getItemCount={data => data.size}
-            getItem={(data, index) => data.get(index.toString())}
+            getItem={(data, index) => data.get(index)}
             keyExtractor={(item, index) => item.get('id').toString()}
             renderItem={this.renderItem}
           />
