@@ -8,6 +8,10 @@ export default class ListTodos extends React.PureComponent {
 
   constructor(props){
     super(props);
+
+    this.component = [];
+    this.selectedRow;
+
     this.deleteTodo = this.deleteTodo.bind(this);
     this.getItemBody = this.getItemBody.bind(this);
     this.getHideElementLeft = this.getHideElementLeft.bind(this);
@@ -18,11 +22,12 @@ export default class ListTodos extends React.PureComponent {
     await this.props.todosActions.deleteTodo(todo.get('id'));
   }
 
-
   renderItem = item => {
     const todo = item.item;
     return (
       <SwipeRow
+        ref={c => this.component[todo.get('id')] = c }
+        onRowOpen={() => this.handleOnRowOpen(todo)}
         leftOpenValue={75}
         rightOpenValue={-75}
         left={this.getHideElementLeft(todo)}
@@ -30,6 +35,17 @@ export default class ListTodos extends React.PureComponent {
         right={this.getHideElementRight(todo)}
       />
     )
+  }
+
+  handleOnRowOpen = todo => {
+    if (this.selectedRowIsNotNull() && this.selectedRow !== this.component[todo.get('id')]) {
+      this.selectedRow._root.closeRow(); 
+    }
+    this.selectedRow = this.component[todo.get('id')];
+  }
+
+  selectedRowIsNotNull(){
+    return this.selectedRow && this.selectedRow._root;
   }
 
   getHideElementLeft = todo => {
@@ -74,6 +90,11 @@ export default class ListTodos extends React.PureComponent {
 
   render() {
     const todos = this.props.todos.get('list');
+
+    if (this.selectedRowIsNotNull()) {
+      this.selectedRow._root.closeRow(); 
+    }
+    
     return (
       <View style={styles.container}>
           <VirtualizedList
@@ -93,3 +114,4 @@ const styles = StyleSheet.create({
     flex: 1,
   }
 });
+

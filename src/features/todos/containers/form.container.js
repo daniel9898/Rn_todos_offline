@@ -1,12 +1,11 @@
-import React, { PureComponent }from 'react';
-//import PropTypes from 'prop-types';
+import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as todosActions from '../redux/todos.actions';
 import FormTodo from '../components/formTodo.cmp'
 
  
-class FormContainer extends PureComponent {
+class FormContainer extends React.PureComponent {
    
     render() {
         return(

@@ -4,27 +4,17 @@ import { Button, Header, Left, Body, Title, Right, Container, Content, Icon } fr
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import InputWrapper from './input.cmp';
-//import Icon from "react-native-vector-icons/Ionicons";
+//import Icon from "react-native-vector-icons/Ionicons"
 import { DrawerActions } from 'react-navigation';
 
-export default class FormTodo extends React.PureComponent {
+  const Form = props => {
+    const { navigation, todosActions } = props;
+    const todo = navigation.getParam('todo');
 
-  constructor(props){
-    super(props);
-    this._handleSubmit = this._handleSubmit.bind(this);
-  }
-
-  //USAREMOS EL FORMULARIO SIN REDUX ,MIENTRAS NO NECESITEMOS PERSISTIR ESOS DATOS PARA USARLOS EN OTROS COMPONENTES
-  //NO ES NECESARIO, USAREMOS EL ESTADO INTERNO DEL COMPONENTE PARA GUARDAR LOS DATOS Y LOS TRANSFORMAREMOS EN UN MAPA
-  //INMUTABLE
-  //https://www.freecodecamp.org/news/handling-state-in-react-four-immutable-approaches-to-consider-d1f5c00249d5/
-
-  _handleSubmit = async (todo, bag) => {
-    this.props.todosActions.updateTodo(todo);
-  };
-
-  render() {
-    let todo = this.props.navigation.getParam('todo');
+    const handleSubmit = async (todo, bag) => {
+      todosActions.updateTodo(todo);
+      navigation.navigate("Todos");
+    };
 
     return (
       <Container>
@@ -32,7 +22,7 @@ export default class FormTodo extends React.PureComponent {
           enableReinitialize
           //isInitialValidal={true}
           initialValues={todo.toJS()}
-          onSubmit={this._handleSubmit}
+          onSubmit={handleSubmit}
 
           validationSchema={Yup.object().shape({
             name: Yup.string()
@@ -58,7 +48,7 @@ export default class FormTodo extends React.PureComponent {
                 <Left>
                   <Button
                     transparent
-                    onPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}>
+                    onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
                     <Icon name="ios-menu" />
                   </Button>
                 </Left>
@@ -88,7 +78,7 @@ export default class FormTodo extends React.PureComponent {
                 />
              
                 <Button full rounded
-                  disabled={!Object.keys(errors).length === 0}
+                  disabled={Object.keys(errors).length !== 0}
                   style={styles.button}
                   onPress={handleSubmit}>
                   <Text>Guardar  </Text>
@@ -101,7 +91,7 @@ export default class FormTodo extends React.PureComponent {
       </Container>
     );
   }
-}
+
 
 const styles = StyleSheet.create({
   Content: {
@@ -116,3 +106,5 @@ const styles = StyleSheet.create({
   },
 
 });
+
+export default Form;
