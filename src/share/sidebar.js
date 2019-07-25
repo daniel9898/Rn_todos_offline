@@ -1,9 +1,8 @@
 import React from "react";
-//import { AppRegistry, Image, StatusBar, FlatList, ImageBackground   } from "react-native";
-import { ScrollView, Text, View} from 'react-native';
+import { Image } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import { Container, Header, Title, Content, Button, ListItem, Text, Icon, Left, Body, Right, Switch, Footer, FooterTab } from 'native-base';
 
-const routes = [{route : "Todos", id: 1}, {route: "Dashboard", id: 2}];//solo test
 
 export default class Sidebar extends React.Component {
 
@@ -18,6 +17,67 @@ export default class Sidebar extends React.Component {
 
   render() {
     return (
+      <Container 
+        bounces={false}
+        style={{ flex: 1, top: -1 }}>
+        
+
+        <Image
+          style={{width: 280, height: 240}}
+          source={{uri: 'https://wallpapercave.com/wp/wp1882671.jpg'}}
+        />
+        
+        <Content padder>
+          <ListItem icon>
+            <Left>
+              <Button transparent>
+                <Icon active name="home" />
+              </Button>
+            </Left>
+            <Body>
+              <Text onPress={this.navigateToScreen('Dashboard')} >Home</Text>
+            </Body>
+          </ListItem>
+
+          <ListItem icon>
+            <Left>
+              <Button transparent>
+                <Icon active name="list" />
+              </Button>
+            </Left>
+            <Body>
+              <Text onPress={this.navigateToScreen('Todos')} >Listado</Text>
+            </Body>
+          </ListItem>
+
+          <ListItem icon>
+            <Left>
+              <Button transparent>
+                <Icon active name="bluetooth" />
+              </Button>
+            </Left>
+            <Body>
+              <Text>No anda</Text>
+            </Body>
+          </ListItem>
+
+        </Content>
+        <Footer>
+          <FooterTab>
+            <Button full>
+              <Text>Footer</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
+      </Container>
+
+    );
+  }
+
+}
+
+
+/*
       <View style={styles.container}>
         <ScrollView>
           <View>
@@ -48,10 +108,7 @@ export default class Sidebar extends React.Component {
           <Text>This is my fixed footer</Text>
         </View>
       </View>
-    );
-  }
-
-}
+*/
 
 const styles = {
   container: {
